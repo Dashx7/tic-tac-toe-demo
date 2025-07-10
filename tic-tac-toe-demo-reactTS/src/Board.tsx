@@ -2,25 +2,42 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import type { Square } from "./gameLogic";
 
-// Pure UI component for rendering the tic-tac-toe board to
+// Pure UI component for rendering the tic-tac-toe board
 interface BoardProps {
   squares: Square[]; // Array is easier to manage than matrix
   onSquareClick: (index: number) => void;
 }
 
 const Board: React.FC<BoardProps> = ({ squares, onSquareClick }) => {
-  // I used a prexiting style for the buttons
+  // I used some preexisting style for the buttons
   const renderSquare = (index: number) => {
+    const isEmpty = squares[index] === null;
+
     return (
       <button
-        className="btn btn-outline-secondary rounded-0 border-dark"
+        className={`btn rounded-0 border-dark ${
+          isEmpty ? "btn-outline-secondary" : "btn-secondary"
+        }`}
         style={{
-          width: "100px",
+          width: "100px", // Using fixed size for simplicity // TODO MAKE IT A DYNAMIC GRID
           height: "100px",
           fontSize: "24px",
           fontWeight: "bold",
+          cursor: isEmpty ? "pointer" : "not-allowed",
+          opacity: isEmpty ? 1 : 0.7,
         }}
         onClick={() => onSquareClick(index)}
+        onMouseOver={(e) => {
+          const darkGray = "#A9A9A9"; /// I like naming colors for clarity
+          if (isEmpty) {
+            e.currentTarget.style.backgroundColor = darkGray;
+          }
+        }}
+        onMouseOut={(e) => {
+          if (isEmpty) {
+            e.currentTarget.style.backgroundColor = ""; // Reset to default because we overrode the style
+          }
+        }}
         key={index}
       >
         {squares[index]}

@@ -28,7 +28,11 @@ function App() {
       <div className="board">
         <Board squares={gameState.board} onSquareClick={handleSquareClick} />
       </div>
-      <Footer onReset={handleReset} winner={gameState.winner} />
+      <Footer
+        onReset={handleReset}
+        currentPlayer={gameState.currentPlayer}
+        winner={gameState.winner}
+      />
     </>
   );
 }

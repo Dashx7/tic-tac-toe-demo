@@ -9,6 +9,7 @@ export interface GameState {
     board: GameBoard;
     currentPlayer: PlayerType;
     winner: PlayerType;
+    // draw?: boolean; // Logic to indicate a draw
 }
 
 // Using lambda function to create the initial game state
@@ -27,8 +28,11 @@ export function makeMove(state: GameState, index: number): GameState {
     const newBoard = [...state.board];
     newBoard[index] = state.currentPlayer;
 
-    const nextPlayer = state.currentPlayer === "X" ? "O" : "X";
+    let nextPlayer: PlayerType = state.currentPlayer === "X" ? "O" : "X";
     const winner = calculateWinner(newBoard);
+    if (winner === null && isBoardFull(newBoard)) {
+        nextPlayer = null; // No more players, game is over
+    }
 
     return {
         board: newBoard,
@@ -38,7 +42,7 @@ export function makeMove(state: GameState, index: number): GameState {
 }
 
 // Function to calculate the winner
-export function calculateWinner(theBoard: GameBoard): PlayerType {
+function calculateWinner(theBoard: GameBoard): PlayerType {
     const winningLines = [
         [0, 1, 2],
         [3, 4, 5],
@@ -57,4 +61,8 @@ export function calculateWinner(theBoard: GameBoard): PlayerType {
     }
 
     return null;
+}
+
+function isBoardFull(theBoard: GameBoard): boolean {
+    return theBoard.every(square => square !== null);
 }
