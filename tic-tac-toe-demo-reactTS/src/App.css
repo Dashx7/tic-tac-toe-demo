@@ -40,3 +40,11 @@
 .read-the-docs {
   color: #888;
 }
+
+.square-empty:hover {
+  background-color: #a9a9a9 !important;
+}
+
+.square-filled:hover {
+  background-color: inherit !important;
+}

@@ -12,11 +12,12 @@ const Board: React.FC<BoardProps> = ({ squares, onSquareClick }) => {
   // I used some preexisting style for the buttons
   const renderSquare = (index: number) => {
     const isEmpty = squares[index] === null;
-
     return (
       <button
         className={`btn rounded-0 border-dark ${
-          isEmpty ? "btn-outline-secondary" : "btn-secondary"
+          isEmpty
+            ? "btn-outline-secondary square-empty"
+            : "btn-secondary square-filled"
         }`}
         style={{
           width: "100px", // Using fixed size for simplicity // TODO MAKE IT A DYNAMIC GRID
@@ -27,17 +28,6 @@ const Board: React.FC<BoardProps> = ({ squares, onSquareClick }) => {
           opacity: isEmpty ? 1 : 0.7,
         }}
         onClick={() => onSquareClick(index)}
-        onMouseOver={(e) => {
-          const darkGray = "#A9A9A9"; /// I like naming colors for clarity
-          if (isEmpty) {
-            e.currentTarget.style.backgroundColor = darkGray;
-          }
-        }}
-        onMouseOut={(e) => {
-          if (isEmpty) {
-            e.currentTarget.style.backgroundColor = ""; // Reset to default because we overrode the style
-          }
-        }}
         key={index}
       >
         {squares[index]}
